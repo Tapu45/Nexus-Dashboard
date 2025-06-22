@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import {  PrismaClient } from '../../../generated/prisma'
+import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
 
-const prisma = new PrismaClient()
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
