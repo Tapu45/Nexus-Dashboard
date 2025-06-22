@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 
 // List of allowed origins
 const allowedOrigins = [
-  'http://localhost:3001',
+  '*',
   // Add other allowed origins as needed
   // 'https://your-production-frontend.com'
 ];
