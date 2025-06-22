@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server';
 // List of allowed origins
 const allowedOrigins = [
   '*',
+  'https://nexus-website-zeta.vercel.app'
   // Add other allowed origins as needed
   // 'https://your-production-frontend.com'
 ];
