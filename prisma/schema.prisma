@@ -1,0 +1,173 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admins")
+}
+
+model HeroSection {
+  id          String   @id @default(cuid())
+  title       String
+  subtitle    String
+  description String
+  buttonText  String
+  buttonLink  String
+  backgroundImage String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("hero_sections")
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  title         String
+  slug          String   @unique // SEO-friendly URL slug
+  shortDescription String // Brief description for cards/listings
+  description   String   // Full detailed description
+  features      String[] // Array of features
+  specifications Json?   // Technical specifications as JSON
+  benefits      String[] // Array of benefits
+  price         Float?
+  originalPrice Float?   // For showing discounts
+  currency      String   @default("USD")
+  pricingModel  String   @default("one-time") // one-time, subscription, custom
+  image         String?  // Primary image
+  images        String[] // Additional images
+  videoUrl      String?  // Product demo video
+  brochureUrl   String?  // PDF brochure/datasheet
+  category      String?
+  subCategory   String?
+  tags          String[] // Array of tags for better filtering
+  targetAudience String[] // Array of target audiences
+  industries    String[]  // Industries this product serves
+  useCases      String[]  // Common use cases
+  systemRequirements Json? // System requirements as JSON
+  compatibility String[]   // Compatible systems/platforms
+  integrations  String[]   // Available integrations
+  metaTitle     String?
+  metaDescription String?
+  keywords      String[] // SEO keywords
+  status        String   @default("draft") // draft, published, archived
+  isActive      Boolean  @default(true)
+  isFeatured    Boolean  @default(false)
+  order         Int      @default(0)
+  publishedAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("products")
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  name        String
+  role        String
+  company     String?
+  content     String
+  rating      Int      @default(5)
+  avatar      String?
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("testimonials")
+}
+
+model WhyChooseUsItem {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  icon        String?
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("why_choose_us_items")
+}
+
+model BookDemoSection {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  buttonText  String
+  formFields  Json     // Store form configuration
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("book_demo_sections")
+}
+
+model DemoRequest {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  company     String?
+  phone       String?
+  message     String?
+  status      String   @default("pending") // pending, contacted, closed
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("demo_requests")
+}
+
+model SiteSettings {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  description String?
+  updatedAt   DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  status    String   @default("pending") // pending, replied, closed
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contacts")
+}
+
+model JobApplication {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  address     String
+  position    String   // Position applied for
+  resumeUrl   String   // URL to uploaded resume file
+  coverLetter String?  // Optional cover letter
+  phone       String?
+  status      String   @default("pending") // pending, reviewing, interviewed, hired, rejected
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("job_applications")
+}
