@@ -3,34 +3,39 @@ import type { NextRequest } from 'next/server';
 
 // List of allowed origins
 const allowedOrigins = [
-  '*',
-  'https://nexus-website-zeta.vercel.app'
+  'https://nexus-website-zeta.vercel.app',
+  'http://localhost:3000', // for local development
+  'http://localhost:3001', // for local development
   // Add other allowed origins as needed
-  // 'https://your-production-frontend.com'
 ];
 
 export function middleware(request: NextRequest) {
   // Get the origin from request headers
   const origin = request.headers.get('origin') || '';
   
-  // Check if the origin is allowed
-  const isAllowedOrigin = allowedOrigins.includes(origin);
+  // Check if the origin is allowed or if we want to allow all origins
+  const isAllowedOrigin = allowedOrigins.includes(origin) || process.env.NODE_ENV === 'development';
   
-  // Get the response
+  // Create response
   const response = NextResponse.next();
   
-  // Add CORS headers if origin is allowed
+  // Add CORS headers
   if (isAllowedOrigin) {
     response.headers.set('Access-Control-Allow-Origin', origin);
-    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    response.headers.set('Access-Control-Allow-Credentials', 'true');
+  } else {
+    // Allow all origins in development or if you want to allow all
+    response.headers.set('Access-Control-Allow-Origin', '*');
   }
+  
+  response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+  response.headers.set('Access-Control-Allow-Credentials', 'true');
+  response.headers.set('Access-Control-Max-Age', '86400');
   
   // Handle preflight OPTIONS request
   if (request.method === 'OPTIONS') {
     return new NextResponse(null, { 
-      status: 204,
+      status: 200,
       headers: response.headers,
     });
   }
