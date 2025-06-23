@@ -6,6 +6,7 @@ const allowedOrigins = [
   'https://nexus-website-zeta.vercel.app',
   'http://localhost:3000', // for local development
   'http://localhost:3001', // for local development
+  'https://www.nexusinfotech.co'
   // Add other allowed origins as needed
 ];
 
